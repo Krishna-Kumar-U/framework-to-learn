@@ -1,2 +1,2 @@
 # framework-to-learn
-Base to learn a MVC framework
+Learning structure and setup of a MVC 
