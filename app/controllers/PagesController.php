@@ -19,7 +19,7 @@ class PagesController
     {
         $me = 'developer';
 
-        return view('about', ['developer' => $me]);
+        return view('about', ['me' => $me]);
     }
 
     /**
