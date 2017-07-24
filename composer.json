@@ -1,0 +1,13 @@
+{
+    "autoload": {
+        "classmap": [
+            "./"
+        ],
+        "files": ["core/helpers.php"]
+    },
+    "require": {
+        "symfony/routing": "^3.3",
+        "symfony/http-foundation": "^3.3",
+        "symfony/dotenv": "^3.3"
+    }
+}
