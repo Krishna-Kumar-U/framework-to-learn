@@ -17,9 +17,9 @@ class PagesController
      */
     public function about()
     {
-        $company = 'Bolas';
+        $me = 'developer';
 
-        return view('about', ['company' => $company]);
+        return view('about', ['developer' => $me]);
     }
 
     /**
