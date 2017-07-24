@@ -1,5 +1,5 @@
 
 # custom framework
 
-/vendor/*
+vendor/*
 .env
