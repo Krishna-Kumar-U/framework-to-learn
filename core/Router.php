@@ -2,12 +2,14 @@
 
 namespace App\Core;
 
+use App\Core\Request;
+use Symfony\Component\HttpFoundation\Request AS Requests;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Symfony\Component\Routing\Matcher\UrlMatcher;
 use Symfony\Component\Routing\RequestContext;
-use Symfony\Component\Routing\RouteCollection;
 use Symfony\Component\Routing\Route;
-use Symfony\Component\HttpFoundation\Request AS Requests;
-use App\Core\Request;
+use Symfony\Component\Routing\RouteCollection;
 
 class Router
 {
@@ -92,21 +94,21 @@ class Router
         $requests = $request->AllRequestDataWithHeader();
         $context = new RequestContext('/', $request->method());
         $context->fromRequest($requests);
-       // dd($requests);
-        $matcher = new UrlMatcher($this->routes, $context);
-       //dd($this->routes);
-        try {
-            $parameters = $matcher->match( $request->uri() );
-            //dd($parameters);
+       try {
+            $parameters = (new UrlMatcher($this->routes, $context))->match( $request->uri() , EXTR_SKIP);
             if(is_callable($parameters['_controller'])){
                 $parameters['_controller']();
             }else{
                 list($controller, $action) = explode('@', $parameters['_controller']);
                 $this->callAction($controller, $action);
             }
-        } catch (Exception $e) {
-            throw new \Exception('No route defined for this URI.');
-        }
+       } catch (ResourceNotFoundException $e) {
+            //$response = new Response('Not Found', 404);
+            return view('errors.404'); 
+       } catch (Exception $e) {
+            //$response = new Response('An error occurred', 500);
+            return view('errors.500');
+       }
     }
 
     /**
